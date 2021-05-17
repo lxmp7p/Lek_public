@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+
+{% block content %}
+    {% if record %}
+    <form method="post">
+        <div class="text-center">
+            <h1>Заявки на загрузку документов экспертом</h1>
+            <hr>
+        </div>
+        {% csrf_token %}
+            <table class="table upper">
+                <thead>
+                <tr>
+                    <th scope="col">ФИО</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in record %}
+                <tr>
+                    <td>{{ object.FIO }}</td>
+                        <td><button type="button" class="btn btn-success upper" onclick="window.location.href ='../docsRequest/{{ object.user_id }}'">Открыть</button></td>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+    </form>
+        {% else %}
+        <div class="text-center">
+            <h1>Заявки на загрузку документов</h1>
+            <hr>
+            <h1>Пусто</h1>
+        </div>
+{% endif %}
+{% endblock %}
+
+

@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% include 'inc/_nav.html' %}
+{% block content %}
+<div id="top"></div>        
+    <form method="post" enctype="multipart/form-data" legend='sw'>
+        <div class="text-center">
+            <h1>Первичная заявка</h1>
+            <hr>
+        </div>
+        {% csrf_token %}
+        <h1 id='error' hidden="true"> Проверьте все поля </h1>
+        <div id="1_load_block" >
+            {{ research_form.protocol_number|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.description|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.document|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            <div class="text-center">
+                <button type="button" id='controlButton' class="btn btn-success upper" style="width: -moz-available" onclick="hide_block()">Далее
+                </button>
+            </div>
+        </div>
+        <hr id='hr'>
+        <div id="2_load_block" hidden="true">
+            {{ research_form.main_researcher|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.list_members|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.ver_bio|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            <div class="row">
+                <div class="text-center col-md-4">
+                    <button type="button" id='controlButton'  class="btn btn-success upper controlButton" style="width: -moz-available" onclick="back_hide_block1()">Назад</button>
+                </div>
+                <div class="text-center col-md-4 col-md-offset-4">
+                    <button type="button" id='controlButton'  class="btn btn-success upper right controlButton" style="width: -moz-available" onclick="hide_block1()">Далее</button>
+                </div>
+        </div>
+        </div>
+        <hr id='hr'>
+        <div id="3_load_block" hidden="true">
+        {{ research_form.accept_research|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.accept_research_version|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.accept_research_date|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            <div class="text-center">
+                <div class="text-center col-md-4">
+                    <button type="button" id='controlButton' class="btn btn-success upper controlButton" style="width: -moz-available" onclick="back_hide_block2()">Назад</button>
+                </div>
+                <button type="button" id='controlButton' class="btn btn-success upper controlButton" style="width: -moz-available" onclick="hide_block2()">Далее</button>
+            </div>
+        </div> 
+        <hr id='hr'>
+        <div id="4_load_block" hidden="true">
+            {{ research_form.protocol_research|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.protocol_research_version|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.protocol_research_date|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            <div class="text-center">
+                <div class="text-center col-md-4">
+                    <button type="button" id='controlButton' class="btn btn-success upper controlButton" style="width: -moz-available" onclick="back_hide_block3()">Назад</button>
+                </div>
+                <button type="button" id='controlButton' class="btn btn-success upper controlButton" style="width: -moz-available" onclick="hide_block3()">Далее</button>
+        </div>
+        </div>
+        <hr id='hr'>
+        <div id="5_load_block" hidden="true">
+            <h3> <b>Форма информированного листка</b><hr>  </h3>
+            <div class="form_inf">
+                <div class="row">
+                    <input type="file" name="my_form_inf_0" id="css_cs_cursor">
+                    Версия:<input name='my_form_inf_ver_0' class="textinput textInput form-control col-sm">
+                    Дата:<input name='my_form_inf_date_0' class="textinput textInput form-control col-sm">
+                    Информация:<input name='my_form_inf_description_0' class="textinput textInput form-control col-sm">
+                    <button type="button" class='col-sm' onclick="addFileRow()">+</button>
+                </div>
+            </div>
+
+            <div class="text-center col-md-4">
+                <button type="button" id='controlButton' class="btn btn-success upper controlButton" style="width: -moz-available" onclick="back_hide_block4()">Назад</button>
+            </div>
+            <div class="text-center">
+                <button type="button" id='controlButton' class="btn btn-success upper controlButton" style="width: -moz-available" onclick="hide_block4()">Далее</button>
+        </div>
+        </div>
+
+
+        <hr>
+        <div id="6_load_block" hidden="true">
+            <h3> <b>Брошюра исследователя</b><hr>  </h3>
+            <div class="cast_researcher">
+                <div class="row">
+                    <input type="file" name="my_cast_researcher_0" id="css_cs_cursor">
+                    Версия:<input name='my_cast_researcher_ver_0' class="textinput textInput form-control col-sm">
+                    Дата:<input name='my_cast_researcher_date_0' class="textinput textInput form-control col-sm">
+                    Информация:<input name='my_cast_researcher_description_0' class="textinput textInput form-control col-sm">
+                    <button type="button" class='col-sm' onclick="addCastResearcher()">+</button>
+                </div>
+            </div>
+            <div class="text-center col-md-4">
+                <button type="button" id='controlButton' class="btn btn-success upper controlButton" style="width: -moz-available" onclick="back_hide_block5()">Назад</button>
+            </div>
+            <div class="text-center">
+                <button type="button" id='controlButton' class="btn btn-success upper controlButton" style="width: -moz-available" onclick="hide_block5()">Далее</button>
+        </div>
+        </div>
+        <hr>
+        <div id="7_load_block" hidden="true">
+            {{ research_form.contract|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.contract_date|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            <div class="text-center col-md-4">
+                <button type="button" class="btn btn-success upper controlButton" style="width: -moz-available" onclick="back_hide_block6()">Назад</button>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-success upper controlButton" style="width: -moz-available" onclick="hide_block6()">Далее</button>
+        </div>
+        </div>
+        <hr>
+        <div id="8_load_block" hidden="true">
+            <h3> <b>Необязательные поля</b><hr>  </h3>
+            {{ research_form.advertising|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.write_objects|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.name_another_doc|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.another_doc|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.another_doc_version|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            {{ research_form.another_doc_date|as_crispy_field }}
+            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+            <div class="text-center col-md-4">
+                <button type="button" class="btn btn-success upper controlButton" style="width: -moz-available" onclick="back_hide_block7()">Назад</button>
+            </div>
+            <div class="text-center">
+                <a href="#top"><button type="button" class="btn btn-success upper controlButton" style="width: -moz-available" onclick="showFirst()" >Готово</button></a>
+            </div>
+            <div class="text-center">
+                <button type="submit" id='endButton' class="btn btn-success upper" style="width: -moz-available" hidden='true'>Отправить заявку</button>
+            </div>
+        </div>
+
+
+    </form>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/select2.css' %}">
+<script type="text/javascript" src='{% static 'js/select2.js' %}'></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_main_researcher').select2();
+});
+ </script>
+
+
+
+<script type="text/javascript">
+    function hide_block(){
+        document.getElementById('1_load_block').hidden = true;
+        document.getElementById('2_load_block').hidden = false;
+    }
+    function hide_block1(){
+        document.getElementById('2_load_block').hidden = true;
+        document.getElementById('3_load_block').hidden = false;
+    }
+    function hide_block2(){
+        document.getElementById('3_load_block').hidden = true;
+        document.getElementById('4_load_block').hidden = false;
+    }
+    function hide_block3(){
+        document.getElementById('4_load_block').hidden = true;
+        document.getElementById('5_load_block').hidden = false;
+    }
+    function hide_block4(){
+        document.getElementById('5_load_block').hidden = true;
+        document.getElementById('6_load_block').hidden = false;
+    }
+    function hide_block5(){
+        document.getElementById('6_load_block').hidden = true;
+        document.getElementById('7_load_block').hidden = false;
+    }
+    function hide_block6(){
+        document.getElementById('7_load_block').hidden = true;
+        document.getElementById('8_load_block').hidden = false;
+    }
+    function showFirst(){
+        document.getElementById('1_load_block').hidden = false;
+        document.getElementById('2_load_block').hidden = false;
+        document.getElementById('3_load_block').hidden = false;
+        document.getElementById('4_load_block').hidden = false;
+        document.getElementById('5_load_block').hidden = false;
+        document.getElementById('6_load_block').hidden = false;
+        document.getElementById('7_load_block').hidden = false;
+        document.getElementById('8_load_block').hidden = false;
+        document.getElementById('error').hidden = false;
+        document.getElementById('controlButton').hidden = true;
+                document.getElementById('endButton').hidden = false;
+        var z = 0;
+        for (var button in document.getElementsByClassName('controlButton')) {
+            document.getElementsByClassName('controlButton')[z].hidden = true;
+            z += 1;
+        }
+    }
+
+    function back_hide_block1(){
+        document.getElementById('2_load_block').hidden = true;
+        document.getElementById('1_load_block').hidden = false;
+    }
+    function back_hide_block2(){
+        document.getElementById('3_load_block').hidden = true;
+        document.getElementById('2_load_block').hidden = false;
+    }
+    function back_hide_block3(){
+        document.getElementById('4_load_block').hidden = true;
+        document.getElementById('3_load_block').hidden = false;
+    }
+    function back_hide_block4(){
+        document.getElementById('5_load_block').hidden = true;
+        document.getElementById('4_load_block').hidden = false;
+    }
+    function back_hide_block5(){
+        document.getElementById('6_load_block').hidden = true;
+        document.getElementById('5_load_block').hidden = false;
+    }
+    function back_hide_block6(){
+        document.getElementById('7_load_block').hidden = true;
+        document.getElementById('6_load_block').hidden = false;
+    }
+    function back_hide_block7(){
+        document.getElementById('8_load_block').hidden = true;
+        document.getElementById('7_load_block').hidden = false;
+    }
+var form_inf_len = 0
+    function addFileRow(){
+        form_inf_len += 1;
+        var articleDiv = document.querySelector("div.form_inf");
+        var div = document.createElement("div");
+        div.setAttribute('class', 'row');
+        // создаем элемент
+        var input = document.createElement("input");
+        input.setAttribute('type', 'file');
+        input.setAttribute('name', 'my_form_inf_' + form_inf_len);
+        var input2 = document.createElement("input");
+        input2.setAttribute('name', 'my_form_inf_ver_' + form_inf_len)
+        input2.setAttribute('class', 'textinput textInput form-control col-sm');
+        var input3 = document.createElement("input");
+        input3.setAttribute('name', 'my_form_inf_date_' + form_inf_len)
+        input3.setAttribute('class', 'textinput textInput form-control col-sm');
+        var input4 = document.createElement("input");
+        input4.setAttribute('name', 'my_form_inf_description_' + form_inf_len)
+        input4.setAttribute('class', 'textinput textInput form-control col-sm');
+
+        // добавляем текст в элемент в качестве дочернего элемента
+        div.appendChild(input)
+        div.appendChild(input2)
+        div.appendChild(input3)
+        div.appendChild(input4)
+        // добавляем элемент в блок div
+        articleDiv.appendChild(div);
+
+    }
+
+    cast_researcher_len = 0
+    function addCastResearcher(){
+        cast_researcher_len += 1;
+        var articleDiv = document.querySelector("div.cast_researcher");
+        var div = document.createElement("div");
+        div.setAttribute('class', 'row');
+        // создаем элемент
+        var input = document.createElement("input");
+        input.setAttribute('type', 'file');
+        input.setAttribute('name', 'my_cast_researcher_' + cast_researcher_len);
+        var input2 = document.createElement("input");
+        input2.setAttribute('name', 'my_cast_researcher_ver_' + cast_researcher_len)
+        input2.setAttribute('class', 'textinput textInput form-control col-sm');
+        var input3 = document.createElement("input");
+        input3.setAttribute('name', 'my_cast_researcher_date_' + cast_researcher_len)
+        input3.setAttribute('class', 'textinput textInput form-control col-sm');
+        var input4 = document.createElement("input");
+        input4.setAttribute('name', 'my_cast_researcher_description_' + cast_researcher_len)
+        input4.setAttribute('class', 'textinput textInput form-control col-sm');
+        // добавляем текст в элемент в качестве дочернего элемента
+        div.appendChild(input)
+        div.appendChild(input2)
+        div.appendChild(input3)
+        div.appendChild(input4)
+        // добавляем элемент в блок div
+        articleDiv.appendChild(div);
+    }
+</script>
+
+
+    {% if error_message %}
+        <script>
+            jAlert('{{ error_message }}', 'Ошибка')
+            </script>
+
+            <script>
+             $(function () {
+              $('[data-toggle="tooltip"]').tooltip()
+             })
+        </script>
+    {% endif %}
+
+{% if statusSaveRequest %}
+<script>
+    jAlert('Исследование успешно загружено', 'Уведомление')
+</script>
+    {% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+
+{% block content %}
+</div>
+</div>
+{% include 'researchTemplate/headerMki.html' %}
+    <form method="post">
+        {% csrf_token %}
+                {% for object in research %}
+                    {% include 'researchTemplate/firstMki.html' %}
+                    {% if object.report or object.subpoena %}
+                        <div class="row">
+                           <div class="col-sm">
+                              <div class='header text-center'>
+                                <h1> Отчеты </h1>
+                              </div>
+                              <table class="mkiDocList AnotherInfo table text-center upper">
+                                <div class='researchListInMeeting text-center col align-self-center'>
+                                    <thead class='text-center'>
+                                        <tr class='text-center'>
+                                          <th scope="col">Название</th>
+                                          <th scope="col" class='text-center'>Файл</th>
+                                        </tr>
+                                    </thead>
+                                  <tbody>
+                                    {% if object.report %}
+                                        <tr>
+                                          <th scope="row">Выписка</th> 
+                                              <div id='buttonOnResearch' class="text-center">
+                                          <td><button type="button" class="btn btn-success upper" onclick="window.location.href= '{{ object.report.url }}'">Скачать выписку</button></td>
+                                        </tr>
+                                    {% endif %}
+                                  </tbody>
+                                </div>
+                              </table>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="row">
+                           <div class="col-sm">
+                              <div class='header text-center'>
+                                <h1> История исследования </h1>
+                              </div>
+                              <table class="mkiDocList AnotherInfo table text-center upper">
+                                <div class='researchListInMeeting text-center col align-self-center'>
+                                    <thead class='text-center'>
+                                        <tr class='text-center'>
+                                          <th scope="col">Действие</th>
+                                          <th scope="col" class='text-center'>Дата</th>
+                                        </tr>
+                                    </thead>
+                                  <tbody>
+                                    {% for log in research_history %}
+                                        <tr>
+                                          <th scope="row">{{ log.condition }}</th> 
+                                          <td>{{ log.datetime }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                </div>
+                              </table>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+                {% endfor %}
+
+
+
+
+
+
+
+
+    <br>  
+<script>
+ function reasonSet(element)
+{
+    console.log(Object.keys(element))
+        document.getElementById('reasonDenied').value = element.innerHTML;
+}
+</script>
+
+{% endblock %}
+
+
+

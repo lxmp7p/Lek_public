@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+{% block content %}
+
+
+
+</div>
+    <h4><a class="nav-link" href="{% url 'profile' username %}" role="button" aria-haspopup="true" aria-expanded="false">Личные данные</a></h4>
+        {% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11 %}
+    <h4><a class="nav-link" href="{% url 'userSetting' username %}" role="button" aria-haspopup="true" aria-expanded="false">Настройки</a></h4>
+        {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <table class="table upper">
+                <thead>
+                <tr>
+                    <th scope="col">Название документа</th>
+                    <th scope="col">Загрузить</th>
+                    <th scope="col">Открыть</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for doc in DocsTypeListModel %}
+                <tr>
+                    <th scope="row" name='title'>{{ doc.name }}</th>
+                    <td>
+                        <form method="post"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" name="{{ doc.id }}">
+                            
+                            {% for files in fileListHave %}
+                                {% if files.docName_id == doc.id %}
+                            <td><button type="button" class="btn btn-success upper" onclick="window.location.href= '{{ files.file.url }}'">Открыть</button></td>
+                            {% endif %}
+                            {% endfor %}
+                        
+                    </td>
+                </tr>
+
+                        {% endfor %}
+                                        <td>
+                            <button type="submit" class="btn btn-primary">Отправить на проверку</button>
+                        
+                    </td>
+                       
+                        </form>
+                        
+
+               
+            </table>
+
+    </form>
+
+
+
+{% endblock %}

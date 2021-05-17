@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+
+{% block content %}
+
+<div class="text-center col-md-4">
+    <form method="post">
+        {% csrf_token %}
+        <div class="user row" id='userList'>
+        {% for user in teamList %}
+                <div class="input-group mb-3 lg">
+                    <input type="text" id='{{user.id}}' class="form-control col-md-8 p-4" aria-label="Default" aria-describedby="inputGroup-sizing-default" value='{{user.fio}}' readonly>
+                    <button class="btn btn-danger col-md-3 upper"  id='{{user.id}}' type="button" onclick="deleteUser('{{user.id}}')">Удалить</button>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="user row">
+            <div class="input-group mb-3 lg">
+                <input type="text" class="form-control col-md-8 p-4" id='newUser' aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                <button class="btn btn-success col-md-3 upper" type="button" onclick="addUser()">Добавить</button>
+            </div>
+        </div>
+        <div class="row text-center"></div>
+            <button class="btn btn-success col-md-10 text-center upper" type="submit">Сохранить</button>
+        </div>
+        <select size="10" hidden='true' multiple  id = "newUsers" name='newUsers' class = "researchLists" style="width:100%;"></select>
+        <select size="10" hidden='true' multiple  id = "deleteUsers" name='deleteUsers' class = "researchLists" style="width:100%;"></select>
+    </form>
+</div>
+
+<script>
+    function deleteUser(userId){
+        document.getElementById(userId).remove();
+        document.getElementById(userId).remove();
+
+        deleteUsers = document.getElementById('deleteUsers')
+        let selectedOption = deleteUsers.options[deleteUsers.selectedIndex];
+        let newOption = new Option(userId);
+        deleteUsers.append(newOption);
+        newOption.selected = true;
+    }
+
+    function addUser(){
+        var fio = document.getElementById('newUser').value;
+        var input = document.createElement("input");
+        input.setAttribute('type', 'text');
+        input.setAttribute('readonly', 'true');
+        input.setAttribute('class', 'form-control col-md-8 p-4');
+        var parent = document.getElementById("userList");
+        parent.appendChild(input);
+        setText(input, fio)
+
+        newUsers = document.getElementById('newUsers')
+        let selectedOption = newUsers.options[newUsers.selectedIndex];
+        let newOption = new Option(fio);
+        newUsers.append(newOption);
+        newOption.selected = true;
+    }
+
+    function setText(input, fio){
+        input.value = fio
+    }
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,27 @@
+<div class='researchListInMeeting text-center col align-self-center'>
+    <form>
+        {% csrf_token %}
+        {% for object in research %}
+            <div class="col-md-6 offset-md-3 text-center">
+                <h3>
+                    {% if RequestNumberList %}
+                        <b>Номер заявки:</b>
+                        {% for RequestObject in RequestNumberList %}
+                            {% if RequestObject.id_research|add:0 == object.id|add:0 %}
+                                <p>{{RequestObject.id}}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </h3>
+                <h3><b>Номер протокола:</b><p>{{ object.protocol_number }}</p></h3>
+                <h3><b>Описание:</b> <p>{{ object.description }}</p></h3>
+                <h3><b>Главный исследователь:</b> <p>{{ object.main_researcher }}</p></h3>
+                {% if object.expert %}
+                    <div id='expertDiv{{object.id}}'>
+                        <h3><b>Эксперт:</b><p><a href='{% url 'profile' object.expert.username %}'> {{ object.expert.last_name }}.{{ object.expert.first_name.0 }}.{{ object.expert.middle_name.0 }}</a></p></h3>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </form>
+</div>

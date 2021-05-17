@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% include 'inc/_nav.html' %}
+{% block content %}
+<table class="table text-center">
+  <thead class="thead-dark text-center">
+    <tr>
+      <th scope="col" class='text-center'>
+      	<h2>Добро пожаловать в информационную систему этического комитета при ФГБУ "НМИЦ онкологии им Н.Н. Петрова".<br> 
+      	Настоящая инфорационная система позволяет:</h1> </th>
+    </tr>
+  </thead>
+  <tbody class=''>
+    <tr>
+      <th scope="row" class='text-center'><h4><b>Формировать пакет документов для этической экспертизы доклинических и клинических исследований лекарственных препаратов и медицинских изделий</b></h3></th>
+    </tr>
+    <tr>
+      <th scope="row" class='text-center'><h4><b>Проводить этическую экспертизу исследований</b></h3></th>
+    </tr>
+    <tr>
+      <th scope="row" class='text-center'><h4><b>Получать результаты этической экспертизы</b></h3></th>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

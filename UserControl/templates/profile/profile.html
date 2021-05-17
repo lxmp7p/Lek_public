@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+{% block content %}
+
+
+
+</div>
+    <h4><a class="nav-link" href="{% url 'profileDocs' username %}" role="button" aria-haspopup="true" aria-expanded="false">Документы</a></h4>
+    </div>
+    {% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11 %}
+    <h4><a class="nav-link" href="{% url 'userSetting' username %}" role="button" aria-haspopup="true" aria-expanded="false">Настройки</a></h4>
+    {% endif %}
+    <div class="profile" style="width: 120%;">
+    <!-- ******HEADER****** -->         
+    <header class="header">
+        <div class="container">  
+        {% if user.photo %}
+            <img style="max-width: 400px; height: 350px;  padding-right: 10px;" class="profile-image img-responsive pull-left" src="{{ user.photo.url }}" />
+        {% else %}
+            <img class="profile-image img-responsive pull-left" style="max-width: 400px; height: 350px; padding-right: 10px;" src='/media/photo/none.png'>
+        {% endif %}                     
+            <div class="profile-content pull-left">
+                <h1 class="name">{{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}</h1>
+                <h2 class="role">{{ user.role.name }}</h2>   
+                <h2 class="birth_date">{{ user.email }}</h2> 
+                <h2 class="birth_date">{{ user.birth_date }}</h2>
+    
+
+            </div><!--//profile-->
+        </div><!--//container-->
+    </header><!--//header-->
+    
+    <div class="container sections-wrapper ">
+        <div class="row">
+            <div class="primary col-md-8 col-sm-12 col-xs-12">
+                <section class="about section">
+                    <div class="section-inner">
+                        <div class="content">
+                          {% if user.username == request.user.username %}
+                          <h2 class="heading">Настройки</h2>
+                          <hr>
+            <div><a class="btn btn-outline-danger my-2 my-sm-0 upper" href="{% url 'password_change' %}">Сменить пароль</a></div>
+                            <hr>
+                             <form method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="myfile">
+            <button type="submit" class="btn btn-primary">Изменить фото</button>
+        </form>
+        {% endif %}
+                         
+                        </div><!--//content-->
+                    </div><!--//section-inner-->                 
+                </section><!--//section-->
+    
+           
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

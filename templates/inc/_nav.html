@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'index' %}">НМИЦ</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+
+{% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11 or request.user.role_id == 1%}
+ <li class="nav-item dropdown">
+    <h4><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Заседания</a>
+    <div class="dropdown-menu">
+      {% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11%}
+      <h4><a class="dropdown-item" href="{% url 'createMeeting' %}">Создать заседание<span class="sr-only">(current)</span></a></h4>
+      {% endif %}
+      <h4><a class="dropdown-item" href="{% url 'watchMeeting' %}">Просмотр заседаний<span class="sr-only">(current)</span></a></h4>
+      <h4><a class="dropdown-item" href="{% url 'watchMeetingEnded' %}">Завершенные заседания<span class="sr-only">(current)</span></a></h4>
+    </div>
+  </h4>
+  </li>
+{% endif %}
+
+{% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11 or request.user.role_id == 5 %}
+   <li class="nav-item dropdown">
+    <h4><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Исследования</a>
+    <div class="dropdown-menu">
+      {% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11 %}
+        <h4><a class="dropdown-item" href="{% url 'myResearchsStatus' %}">Список исследований</a></h4>
+      {% else %}
+        <h4><a class="dropdown-item" href="{% url 'myResearchsStatus' %}">Статус моих исследований</a></h4>
+      {% endif %}
+      {% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11 %}
+      <h4><a class="dropdown-item" href="{% url 'acceptedResearchsList' %}">Принятые исследования<span class="sr-only">(current)</span></a></h4>
+      {% endif %}
+    </div>
+  </h4>
+  </li>
+{% endif %}
+
+{% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11%}
+  <li class="nav-item dropdown">
+    <h4><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Обращения в ЛЭК</a>
+    <div class="dropdown-menu">
+      <h4><a class="dropdown-item" href="{% url 'register_requests' %}">Заявки на регистрацию</a></h4>
+      <h4><a class="dropdown-item" href="{% url 'expertResearch' %}">Статус эксперта</a></h4>
+       <h4><a class="dropdown-item" href="{% url 'docsRequestList' %}">Документы</a></h4>
+      <h4><a class="dropdown-item" href="{% url 'watchResearchList' %}">Предложенные исследования</a></h4>
+    </div>
+  </h4>
+  </li>
+{% endif %}
+
+
+{% if request.user.role_id == 5 or request.user.role_id == 11 or request.user.role_id == 3 %}
+  <li class="nav-item dropdown">
+    <h4><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Подача документов</a>
+    <div class="dropdown-menu">
+      <h4><a class="dropdown-item" href="{% url 'createFirstMki' %}">Первичная подача</a></h4>
+      <h4><a class="dropdown-item" href="{% url 'myResearchsStatus' %}">Вторичная подача</a></h4>
+      <h4><a class="dropdown-item" href="{% url 'createMedResearch' %}">Медицинское изделие</a></h4>
+    </div>
+  </h4>
+  </li>
+{% endif %}
+
+</div>
+
+
+
+
+
+
+
+      </li>
+    </ul>
+    {% if request.user.username %}
+    <form class="form-inline my-2 my-lg-0">
+              <h4><a class="nav-link" href="{% url 'profile' request.user.username %}">{{request.user.last_name }} {{request.user.first_name.0 }}. {{request.user.middle_name.0 }}.</a></h4>
+    </form>
+    <form class="form-inline my-2 my-lg-0">
+              <a class="btn btn-outline-danger my-2 my-sm-0 upper" href="{% url 'logout' %}">Выйти</a>
+    </form>
+    {% endif %}
+
+  </div>
+</nav>

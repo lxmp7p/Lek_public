@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+{% load static %}
+{% block content %}
+</div>
+</div>
+<form method="post">
+{% csrf_token %}
+{% for object in research %}
+    {% if type == 1 %}
+        {% include 'researchTemplate/firstMki.html' %}
+    {% endif %}
+{% endfor %}
+</form>
+{% endblock %}
+
+

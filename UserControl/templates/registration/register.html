@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block nav %}
+{% endblock %}
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        <h1  class="text-center">Регистрация</h1>
+        {{ user_form|crispy  }}
+        {{ profile_form|crispy  }}
+					<h3><p><input type="checkbox" name="a" value="liz" required> Я даю согласие на <a href="https://www.niioncologii.ru/patients/agreement" style="color: green;"> обработку персональных данных.</a></p></h3>
+					<br>
+
+        <button type="submit" class="btn btn-primary btn-block btn-success">Регистрация</button>
+        <a href ="{% url 'login' %}" class="btn btn-primary btn-block">Перейти к входу</a>
+    </form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+
+{% block content %}
+<form method="post" class='text-center'>
+            {% csrf_token %}
+                  <div class="input-group rounded ">
+            <input type="search" class="form-control rounded" placeholder="Введите номер протокола" name='SEARCH' aria-label="Поиск" />
+            <br><br>
+    {% if reserchRequestList %}
+    <form method="post">
+        <div class="text-center">
+            <h1>Предложенные исследования</h1>
+            <hr>
+        </div>
+        {% csrf_token %}
+            <table class="table upper">
+                <thead>
+                <tr>
+                    <th scope="col">Создана</th>
+                    <th scope="col">Тип</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in reserchRequestList %}
+                <tr>
+                    <td>{{ object.1 }}</td>
+
+                    <td>
+                        {% if object.2 == 1%}
+                            Первичная подача 
+                        </td>
+                        <td><button type="button" class="btn btn-success upper" onclick="window.location.href ='../watchResearch/{{ object.2}}/{{ object.0 }}'">Открыть</button></td>
+
+                        {% elif object.2 == 2 %}
+                            Мед изделие
+                        </td>
+                            <td><button type="button" class="btn btn-success upper" onclick="window.location.href ='../watchResearch/{{ object.2}}/{{ object.0 }}'">Доделать</button></td>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+    </form>
+        {% else %}
+        <div class="text-center">
+            <h1>Предложенные исследования</h1>
+            <hr>
+            <h2>Пусто</h2>
+        </div>
+{% endif %}
+{% endblock %}
+
+

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+            <table class="col-md-6 offset-md-3 text-center table upper ">
+                <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Версия</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Файл</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+
+                <tbody> 
+                {% for object in research %}
+                <div class="col-md-6 offset-md-3 text-center">
+                    <h3><b>Номер протокола:</b>{{ object.protocol_number }}</h3>
+                    <h3><b>Описание:</b>{{ object.description }}</h3>
+                    <hr>
+                    <h3><b>Главный исследователь:</b> {{ object.main_researcher }}</h3>
+                    <hr>
+                </div>
+        <br>
+                    <tr>
+                        <th scope="row">Формуляр заявки</th>
+                        <td>-</td>
+                        <td>-</td>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.formular_request.url }}'">Открыть</button></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Список членов комиссии</th>
+                        <td>-</td>
+                        <td>-</td>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.list_members.url  }}'">Открыть</button></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Разрешение МЗ РФ</th>
+                        <td>{{ object.accept_research_version }}</td>
+                        <td>{{ object.accept_research_date  }}</td>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.accept_research.url  }}'">Открыть</button></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Протокол исследования</th>
+                        <td>{{ object.protocol_research_version }}</td>
+                        <td>{{ object.protocol_research_date  }}</td>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.protocol_research.url  }}'">Открыть</button></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Форма информированного листа</th>
+                        <td>{{ object.form_inf_version }}</td>
+                        <td>{{ object.form_inf_date  }}</td>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.form_inf.url  }}'">Открыть</button></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Брошюра исследователя</th>
+                        <td>{{ object.cast_researcher_version }}</td>
+                        <td>{{ object.cast_researcher_date  }}</td>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.cast_researcher.url  }}'">Открыть</button></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Договор страхования</th>
+                        <td>-</td>
+                        <td>{{ object.contract_date  }}</td>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.contract.url  }}'">Открыть</button></td>
+                    </tr>
+{% if another_doc_version %}
+                    <tr>
+                        <th scope="row">Дополнительный документ</th>
+                        <td>{{ object.another_doc_version  }}</td>
+                        <td>{{ object.another_doc_date  }}</td>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.another_doc.url  }}'">Открыть</button></td>
+                    </tr>
+{% endif %}
+                {% endfor %}
+                </tbody>
+            </table>  
+        <div class="col-xs-12 text-center">
+            <button type="submit" class="btn btn-success upper" name="ACCEPT" value="{{ id }}">Принять</button>
+              <button class="btn btn-danger upper dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Отклонить
+                </button>
+  <div class="dropdown-menu col-xs-12 text-center" aria-labelledby="dropdownMenuButton">
+    <button type="submit" class="btn btn-danger upper dropdown-item" name="DENIED" value="{{ id }}" onclick='reasonSet(this)'>НУ ШО</button>
+    <button type="submit" class="btn btn-danger upper dropdown-item" name="DENIED" value="{{ id }}" onclick='reasonSet(this)'>НУ ТО</button>
+  </div>
+</div>
+        </div>
+        </div>
+        <input name="reasonDenied"  type="hidden" id='reasonDenied' value='' >
+    </form>
+   <br>  
+<script>
+ function reasonSet(element)
+{
+    console.log(Object.keys(element))
+        document.getElementById('reasonDenied').value = element.innerHTML;
+}
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,107 @@
+<table class="mkiDocList table text-center upper">
+    <div class='researchListInMeeting text-center col align-self-center'>
+      <thead class='text-center'>
+      <tr class='text-center'>
+          <th scope="col">Название</th>
+          <th scope="col" class='text-center'>Версия</th>
+          <th scope="col" class='text-center'>Дата</th>
+          <th scope="col" class='text-center'>Файл</th>
+          <th scope="col" class='text-center'></th>
+      </tr>
+      </thead>
+      <tbody>
+
+          <tr>
+              <th scope="row">Документ</th> 
+              <td>-</td>
+              <td>-</td>
+              <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.document.url  }}'">Открыть</button></td>
+          </tr>
+
+          <tr>
+              <th scope="row">Список членов команды</th>
+              <td>-</td>
+              <td>-</td>
+              <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.list_members.url  }}'">Открыть</button></td>
+          </tr>
+
+        {% if object.accept_research %}
+          <tr>
+              <th scope="row">Разрешение МЗ РФ</th>
+              <td>{{ object.accept_research_version }}</td>
+              <td>{{ object.accept_research_date  }}</td>
+              <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.accept_research.url  }}'">Открыть</button></td>
+          </tr>
+        {% endif %}
+
+          <tr>
+              <th scope="row">Протокол исследования</th>
+              <td>{{ object.protocol_research_version }}</td>
+              <td>{{ object.protocol_research_date  }}</td>
+              <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.protocol_research.url  }}'">Открыть</button></td>
+          </tr>
+
+          {% if anotherDocListMki %}
+            {% for documentList in anotherDocListMki %}
+            {% for document in documentList %}
+              {% if document.name_document_id == 1 and object.id|add:0 == document.id_research|add:0 and object.type_id|add:0 == document.type_research|add:0%}
+                <tr>
+                    <th scope="row">Форма информированного листа <a href="#" class="tip">Заметка<span>{{ document.description }}</span></a></p></th>
+                    <td>{{ document.version }}</td>
+                    <td>{{ document.date  }}</td>
+                    <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '/media/{{ document.document  }}'">Открыть</button></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              {% endfor %}
+          {% endif %}
+
+
+
+          {% if anotherDocListMki %}
+            {% for documentList in anotherDocListMki %}
+            {% for document in documentList %}
+              {% if document.name_document_id == 2 and object.id|add:0 == document.id_research|add:0 and object.type_id|add:0 == document.type_research|add:0%}
+                <tr>            
+                    <th scope="row">Брошюра исследователя <p><a href="#" class="tip">Заметка<span>{{ document.description  }}</span></a></p></th>
+                    <td>{{ document.version }}</td>
+                    <td>{{ document.date  }}</td>
+                    <td><button type="button" class="btn btn-primary upper" onclick="window.location.href='/media/{{ document.document }}'">Открыть</button></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              {% endfor %}
+          {% endif %}
+          <tr>
+              <th scope="row">Договор страхования</th>
+              <td>-</td>
+              <td>{{ object.contract_date  }}</td>
+              <td><button type="button" class="btn btn-primary upper" onclick="window.location.href='{{ object.contract.url  }}'">Открыть</button></td>
+          </tr>
+{% if another_doc_version %}
+          <tr>
+              <th scope="row">Дополнительный документ</th>
+              <td>{{ object.another_doc_version  }}</td>
+              <td>{{ object.another_doc_date  }}</td>
+              <td><button type="button" class="btn btn-primary upper" onclick="window.location.href='{{ object.another_doc.url  }}'">Открыть</button></td>
+          </tr>
+{% endif %}
+                  </tbody>
+                </div>
+  </table>
+
+{% if request.user.role_id == 3 or request.user.role_id == 11 or request.user.role_id == 3 or request.user.role_id == 2 %}
+    {% if object.secretar_accepted != 'True' %}
+                 <div class="col-xs-12 text-center">
+                    <button type="submit" class="btn btn-success upper" name="ACCEPT" value="{{ id }}">Принять</button>
+                    <button class="btn btn-danger upper dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Отклонить
+                    </button>
+                    <div class="dropdown-menu col-xs-12 text-center" aria-labelledby="dropdownMenuButton">
+                        <button type="submit" class="btn btn-danger upper dropdown-item" name="DENIED" value="{{ id }}" onclick='reasonSet(this)'>Ошибка в документах</button>
+                        <button type="submit" class="btn btn-danger upper dropdown-item" name="DENIED" value="{{ id }}" onclick='reasonSet(this)'>)))))))))</button>
+                    </div>
+                </div>
+                <input name="reasonDenied"  type="hidden" id='reasonDenied' value='' >
+    {% endif %}
+{% endif %}

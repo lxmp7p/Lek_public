@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+            <table class="col-md-6 offset-md-3 text-center table upper ">
+                <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+
+                <tbody> 
+                {% for object in records %}
+        <br>
+                    <tr>
+                        <th scope="row">{{ object.docName.name }}</th>
+                        <td><button type="button" class="btn btn-primary upper" onclick="window.location.href= '{{ object.file.url  }}'">Открыть</button></td>
+                    </tr>
+
+
+                 
+                {% endfor %}
+                </tbody>
+            </table>  
+        <div class="col-xs-12 text-center">
+            <button type="submit" class="btn btn-success upper" name="ACCEPT" value="accept">Принять</button>
+              <button class="btn btn-danger upper dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Отклонить
+                </button>
+  <div class="dropdown-menu col-xs-12 text-center" aria-labelledby="dropdownMenuButton">
+    <button type="submit" class="btn btn-danger upper dropdown-item" name="DENIED" value="{{ id }}" onclick='reasonSet(this)'>Ошибка в документах</button>
+    <button type="submit" class="btn btn-danger upper dropdown-item" name="DENIED" value="{{ id }}" onclick='reasonSet(this)'>)))))))))</button>
+  </div>
+</div>
+        </div>
+        </div>
+        <input name="reasonDenied"  type="hidden" id='reasonDenied' value='' >
+    </form>
+   <br>  
+<script>
+ function reasonSet(element)
+{
+    console.log(Object.keys(element))
+        document.getElementById('reasonDenied').value = element.innerHTML;
+}
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,224 @@
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% include 'inc/_nav.html' %}
+{% block content %}
+    </div>
+    <div class="row upper" >
+ <div class="col">
+<form method="post" id='form_meeting_creates' class="form_meeting_create">
+    {% csrf_token %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Исследования</th>
+                <th>Принято</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for research in researchListMki %}
+            <tr>
+                <th scope="row"><a href='../research/watchResearch/{{ research.type_id }}/{{ research.id }}' target="_blank"> {{ research.protocol_number }}</a></th>
+                <th scope="row"> {{ research.secretar_accepted_date }} </th>
+                <td>
+                    <button type="button" class="btn btn-success" id="{{ research.type_id }}.{{ research.id }}" value="{{ research.protocol_number }}" onclick="researchAdd({{ research.type_id }}.{{ research.id }})">Добавить</button><td>
+                    <th><button type="button" class="btn btn-danger row " id="{{ research.type_id }}.{{ research.id }}Del" disabled='true' value="{{research.protocol_number}}" onclick="researchDell({{ research.type_id }}.{{ research.id }})">Удалить</button></th >
+            </tr>
+        {% endfor %}
+        {% for research in researchListMed %}
+            <tr>
+                <th scope="row"><a href='../research/watchResearch/{{ research.type_id }}/{{ research.id }}' target="_blank"> {{ research.id }} </a></th>
+                <th><button type="button" class="btn btn-success upper" id="{{ research.type_id }}.{{ research.id }}" value="{{ research.type_id }}.{{ research.id }}" onclick="researchAdd({{ research.type_id }}.{{ research.id }} )">Добавить</button></th >
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="col" style="border-left: solid; border-right: solid">
+    <select size="10" multiple name="researchLists" id = "researchLists" class = "researchLists" style="width:100%;"></select>
+    <select size="10" multiple name="userLists" id = "userLists" class = "userLists" style="width:100%;"></select>
+    {{ form|crispy }}
+    <div class='info-text text-center' id='infoCount'>
+    <ul class="list-group" id='lel'>
+        {% for check in infoList%}
+            <li class="list-group-item">{{ check }}</li>
+        {% endfor %}
+    </ul>
+</div>
+    <td><button type="submit" class="btn btn-success upper center-block" disabled="true" name="userCreateMeetingBtn" id='createMeetingButton'>Создать заседание</button></td>
+</div>
+
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Пользователи</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id='userPanel'>
+                {% for user in userList %}
+                    <tr><div>
+                        <th><a href='../profile/{{ user.username }}' target="_blank"> {{ user.last_name }} {{ user.first_name.0 }}. {{ user.middle_name.0 }}.</a></th>
+                        <th>{{ user.role.name }} </th>
+                        <td><button type="submit" class="btn btn-success upper buttonList" disabled='true' id="{{ user.id }}" value="{{ user.last_name }} {{ user.first_name.0 }}.{{ user.middle_name.0 }}" onclick="userAdd({{ user.id }}), check_userList()">Добавить</button></td>
+                    </div></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class='settingsPanel'>
+    <div class="typeResearchInMeeting" style="border-left: solid; border-right: solid;" >
+                <select size="10" multiple name="researchListsType" id = "researchListsType" class = "researchListsType"></select>
+            </div>
+
+    <div class="usersInMeeting" id='usersInMeeting' style="border-left: solid; border-right: solid;" >
+                <select size="10" multiple name="usersListType" id = "usersListType" class = "usersList"></select>
+            </div>
+    <div id='infoListCheck'> 
+        <input id='infoListCheckInput' hidden='true' value='{{infoList}}'>
+    </div>
+</div>
+</form>
+
+
+<script>
+function researchAdd(id) {
+    let selectedOption = researchLists.options[researchLists.selectedIndex];
+    let newOption = new Option(document.getElementById(id).value);
+    researchLists.append(newOption);
+    researchTypeAdd(id)
+    newOption.selected = true;
+    document.getElementById(id).disabled = true;
+    document.getElementById(id+'Del').disabled = false;
+    checkUsersAndResearchs()
+}
+
+function researchTypeAdd(id){
+    let selectedOption = researchListsType.options[researchListsType.selectedIndex];
+    let newOption = new Option(document.getElementById(id).id);
+    researchListsType.append(newOption);
+    newOption.selected = true;
+    for (var button in document.getElementsByClassName('buttonList')) {
+        console.log(document.getElementsByClassName('buttonList')[button].disabled = false);
+    }
+}
+
+function researchDell(id) {
+    var description = document.getElementById(id).value;
+    for (var i in document.getElementById('researchLists').options) {
+        if (document.getElementById('researchLists').options[i].text == description) {
+            $('select option:eq('+i+')').remove();
+            $('#researchListsType option:eq('+i+')').remove();
+            document.getElementById(id).disabled = false;
+        }
+    }
+
+    document.getElementById(id+'Del').disabled = true;
+}
+
+function userAdd(id) {
+    let selectedOption = userLists.options[userLists.selectedIndex];
+    let newOption = new Option(document.getElementById(id).value);
+    userLists.append(newOption);
+    usersListAdd(id)
+    newOption.selected = true;
+    document.getElementById(id).disabled = true;
+    checkUsersAndResearchs()
+}
+
+function usersListAdd(id){   
+    let selectedOption = usersListType.options[usersListType.selectedIndex];
+    let newOption = new Option(document.getElementById(id).id);
+    usersListType.append(newOption);
+    newOption.selected = true;
+}
+</script>
+
+
+
+<script>
+
+</script>
+
+ {% if error %}
+    <script>
+        jAlert('{{ error }}', 'Ошибка при создании заседания');
+    </script>
+    {% endif %}
+
+     {% if created %}
+    <script>
+        jAlert('Заседание успешно создано');
+    </script>
+{% endif %}
+
+
+<script type="text/javascript">
+function check_userList(){
+    selectUserList = document.getElementById('selectUserList');
+    let arr = []
+    var usersInMeeting = $('.usersInMeeting option').prop('selected', true);
+    for (let i = 0; i < usersInMeeting.length; i++) {
+        arr.push(usersInMeeting[i].text)
+    }
+
+}
+</script>
+
+<script type="text/javascript">
+   $("#userPanel").on('click', function(){
+    userList = $('#usersListType').val();
+    researchListsType = $('#researchListsType').val();
+    $.ajax({
+        url: '/meetings/checkConflict/',
+        type: 'post', // This is the default though, you don't actually need to always mention it
+        data:{
+            userList: userList,
+            researchLists: researchListsType,
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        succes:function(msg){
+        }
+    });
+    $.ajax({
+        url: '/meetings/checkConflict/',
+        type: 'GET', // This is the default though, you don't actually need to always mention it
+        data:{
+            userList: userList,
+            researchLists: researchListsType,
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        succes:function(msg){
+        }
+    });
+    $("#lel").load(
+        "/meetings/checkConflict/ #lel" ,
+        {
+            userList: userList,
+            researchLists: researchListsType,
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        });
+    $("#infoListCheck").load(
+        "/meetings/checkConflict/ #infoListCheck" ,
+        {
+            userList: userList,
+            researchLists: researchListsType,
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        function(){
+            if (document.getElementById('infoListCheckInput').value == 'None') {
+                document.getElementById('createMeetingButton').disabled = false;
+        }
+           });
+  });
+</script>
+
+
+
+</script>
+{% endblock %}

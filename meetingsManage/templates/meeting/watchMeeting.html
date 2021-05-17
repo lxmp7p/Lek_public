@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% include 'inc/_nav.html' %}
+{% block content %}
+
+    <form method="post">
+        <table class="table upper" >
+            <thead>
+                
+                {% if ended %}
+                    <h1>Завершенные заседания</h1>
+                {% else %}
+                    <h1>Ближайшие заседания</h1>
+                {% endif %}
+                    <hr>
+            <tr>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Повестка</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for meeting in meetingList %}
+            <tr>
+                <th>{{ meeting.date }}</th>
+                <td>{{ meeting.time }}</td>
+                <td>
+                    {% if meeting.subpoena %}
+                       <button type="button" class="btn btn-primary upper" onclick="window.location.href= '../../{{ meeting.subpoena  }}'">Скачать повестку</button>
+                    {% else %}
+                        Повестка остутсвует
+                    {% endif %}
+                </td>
+
+                <td><button type="button" class="btn btn-success upper" style="width: -moz-available" onclick="window.location.href ='../meeting/{{ meeting.id }}'">Просмотреть</button></td>
+                {{meetind.status}}
+                {% if meeting.status == 'Created' %}
+                {% if request.user.role_id == 2 or request.user.role_id == 3 or request.user.role_id == 11 %}
+                    <td><button type="button" class="btn btn-info upper" style="width: -moz-available" onclick="window.location.href ='../editMeeting/{{ meeting.id }}'">Изменить</button></td>
+                {% endif %}
+                {% endif %}
+            </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+        {% csrf_token %}
+            <hr>
+        <br><br><br>
+    </form>
+
+{% endblock %}

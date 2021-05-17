@@ -1,0 +1,133 @@
+html, body {
+      overflow-x:  hidden;
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    /* Равно высоте подвала, */
+    /* но с учётом margin-bottom у последнего дочернего элемента */
+    margin-bottom: -50px;
+}
+
+.footer,
+.push {
+    height: 50px;
+}
+
+.upper {
+    font-size: 20px !important;
+}
+
+.userListLeft {
+  max-width: 100em; /* блок занимает ширину родителя, max-width её ограничивает */
+  min-height: 2em;
+  margin-left: -1600px;
+  margin-right: auto;
+  background: #fff5d7;
+    position: fixed;
+    padding-right: 50px;
+    margin-right: 20px;
+    font-size: 20px;
+    right: 0;
+    bottom: 0;
+
+    background-color: #FFF9AE;
+}
+
+.rightBottom {
+      position: fixed;
+    padding-right: 50px;
+    margin-right: 20px;
+    font-size: 20px;
+    right: 0;
+    bottom: 0;
+}
+
+.researchListInMeeting {
+  width: 85%;
+  padding-left: 15%;
+
+
+}
+
+.container-fluid {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.typeResearchInMeeting {
+  visibility: hidden;
+}
+
+.endMeetingForm {
+    margin-top: 50px;
+}
+
+.typeResearchInMeeting {
+  width: 100%;
+  visibility: hidden;
+}
+.usersInMeeting {
+  width: 100%;
+  visibility: hidden;
+}
+
+.mkiDocList {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.redHr {
+  background-color: red; 
+  height: 1px;
+}
+
+#error_file_load {
+  color: red;
+}
+
+.button_center {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+
+.button_center button {
+  width: 300px;
+}
+
+#select2-data-1-tpql {
+  width: 200px;
+}
+
+#select2-data-1-setlolsetlolsetlolsetlol {
+  width: 500px;
+}
+
+a.tip {
+    border-bottom: 1px dashed;
+    text-decoration: none
+}
+a.tip:hover {
+    cursor: help;
+    position: relative
+}
+a.tip span {
+    display: none
+}
+a.tip:hover span {
+    border: #c0c0c0 1px dotted;
+    padding: 5px 20px 5px 5px;
+    display: block;
+    z-index: 100;
+    background: url(../images/status-info.png) #f0f0f0 no-repeat 100% 5%;
+    left: 0px;
+    margin: 10px;
+    width: 250px;
+    position: absolute;
+    top: 10px;
+    text-decoration: none
+}

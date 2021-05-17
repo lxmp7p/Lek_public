@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% include 'inc/_nav.html' %}
+{% block content %}
+<ul>
+	<form method="post" enctype="multipart/form-data" class='row'>
+<div id='editList' >
+	<li class="list-group-item">
+        {% csrf_token %}
+         <h1 id='error' hidden="true"> Проверьте все поля </h1>
+         <div class="dropdown button_center" id='1_load_bloc'>
+  				<button class="btn btn-secondary dropdown-toggle" type="button" id="1_load_bloc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick='get_block(this)'>
+    			Протокол
+  				</button>
+	        <div id="1_load_block" hidden="true">
+	            {{ research_form.protocol_number|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.description|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.document|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+
+         	</div>
+			</div>
+
+</li>
+
+<li class="list-group-item">
+         <div class="dropdown button_center" id='2_load_bloc' >
+  				<button class="btn btn-secondary dropdown-toggle" type="button" id="2_load_bloc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick='get_block(this)'>
+    			Исследователь и команда
+  				</button>         
+	        <div id="2_load_block" hidden="true" >
+	            {{ research_form.main_researcher|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.list_members|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.ver_bio|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+
+	        </div>
+	     </div>
+</li>
+
+<li class="list-group-item">
+	<form method="post" enctype="multipart/form-data" class='row'>
+	{% csrf_token %}	     
+         <div class="dropdown button_center" id='3_load_bloc' >
+  				<button class="btn btn-secondary dropdown-toggle" type="button" id="3_load_bloc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick='get_block(this)'>
+    			МЗ РФ
+  				</button>
+	        <div id="3_load_block" hidden="true">
+	        {{ research_form.accept_research|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.accept_research_version|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.accept_research_date|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+
+	        </div> 
+	     </div>
+
+</li>
+
+<li class="list-group-item">
+         <div class="dropdown button_center" id='4_load_bloc' >
+  				<button class="btn btn-secondary dropdown-toggle" type="button" id="4_load_bloc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick='get_block(this)'>
+    			Протокол исследования
+  				</button>
+	        <div id="4_load_block" hidden="true">
+	            {{ research_form.protocol_research|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.protocol_research_version|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.protocol_research_date|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+
+	        </div>
+	     </div>
+</li>
+
+<li class="list-group-item">
+         <div class="dropdown button_center" id='5_load_bloc' >
+  				<button class="btn btn-secondary dropdown-toggle" type="button" id="5_load_bloc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick='get_block(this)'>
+    			Форма информированого листа
+	  				</button>
+	        <div id="5_load_block" hidden="true">
+		        	<div class="form_inf">
+	                <div class="row">
+	                    <input type="file" name="my_form_inf_0" id="css_cs_cursor">
+	                    Версия:<input name='my_form_inf_ver_0' class="textinput textInput form-control col-sm">
+	                    Дата:<input name='my_form_inf_date_0' class="textinput textInput form-control col-sm">
+                      Информация:<input name='my_form_inf_description_0' class="textinput textInput form-control col-sm">
+	                    <button type="button" class='col-sm' onclick="addFileRow()">+</button>
+	                </div>
+	            </div>
+
+	        </div>
+	     </div>
+
+</li>
+
+<li class="list-group-item">
+         <div class="dropdown button_center" id='6_load_bloc' >
+  				<button class="btn btn-secondary dropdown-toggle" type="button" id="6_load_bloc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick='get_block(this)'>
+    			Брошюра исследователя
+  				</button>
+        		<div id="6_load_block" hidden="true">
+	           <div class="cast_researcher">
+	                <div class="row">
+	                    <input type="file" name="my_cast_researcher_0" id="css_cs_cursor">
+	                    Версия:<input name='my_cast_researcher_ver_0' class="textinput textInput form-control col-sm">
+	                    Дата:<input name='my_cast_researcher_date_0' class="textinput textInput form-control col-sm">
+                      Информация:<input name='my_cast_researcher_description_0' class="textinput textInput form-control col-sm">
+	                    <button type="button" class='col-sm' onclick="addCastResearcher()">+</button>
+	                </div>
+	            </div>
+
+	        </div>
+	     </div>
+
+</li>
+
+<li class="list-group-item">
+         <div class="dropdown button_center" id='7_load_bloc' >
+  				<button class="btn btn-secondary dropdown-toggle" type="button" id="7_load_bloc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick='get_block(this)'>
+    			Договор обязательного страхования
+  				</button>
+	        <div id="7_load_block" hidden="true">
+	            {{ research_form.contract|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.contract_date|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+
+	        </div>
+	     </div>
+</li>
+
+
+<li class="list-group-item">
+         <div class="dropdown button_center" id='8_load_bloc' >
+  				<button class="btn btn-secondary dropdown-toggle" type="button" id="8_load_bloc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick='get_block(this)'>
+    			Прочее
+  				</button>
+	        <div id="8_load_block" hidden="true">
+	            <h3> <b>Необязательные поля</b><hr>  </h3>
+	            {{ research_form.advertising|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.write_objects|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.name_another_doc|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.another_doc|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.another_doc_version|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+	            {{ research_form.another_doc_date|as_crispy_field }}
+	            <p title='?' style='text-decoration: underline;'>Подробнее</p>
+
+	        </div>
+	     </div>
+	     	            <div class="text-center">
+	                <button type="submit" class="btn btn-success upper" style="width: -moz-available">Заменить</button>
+	            </div>
+    </form>
+</li>
+</div>
+
+<script type="text/javascript">
+	var form_inf_len = 0
+	function addFileRow(){
+        form_inf_len += 1;
+        var articleDiv = document.querySelector("div.form_inf");
+        var div = document.createElement("div");
+        div.setAttribute('class', 'row');
+        // создаем элемент
+        var input = document.createElement("input");
+        input.setAttribute('type', 'file');
+        input.setAttribute('name', 'my_form_inf_' + form_inf_len);
+        var input2 = document.createElement("input");
+        input2.setAttribute('name', 'my_form_inf_ver_' + form_inf_len)
+        input2.setAttribute('class', 'textinput textInput form-control col-sm');
+        var input3 = document.createElement("input");
+        input3.setAttribute('name', 'my_form_inf_date_' + form_inf_len)
+        input3.setAttribute('class', 'textinput textInput form-control col-sm');
+        var input4 = document.createElement("input");
+        input4.setAttribute('name', 'my_form_inf_description_' + form_inf_len)
+        input4.setAttribute('class', 'textinput textInput form-control col-sm');
+
+        // добавляем текст в элемент в качестве дочернего элемента
+        div.appendChild(input)
+        div.appendChild(input2)
+        div.appendChild(input3)
+        div.appendChild(input4)
+        articleDiv.appendChild(div);
+    }
+
+    var cast_researcher_len = 0
+    function addCastResearcher(){
+        cast_researcher_len += 1;
+        var articleDiv = document.querySelector("div.cast_researcher");
+        var div = document.createElement("div");
+        div.setAttribute('class', 'row');
+        // создаем элемент
+        var input = document.createElement("input");
+        input.setAttribute('type', 'file');
+        input.setAttribute('name', 'my_cast_researcher_' + cast_researcher_len);
+        var input2 = document.createElement("input");
+        input2.setAttribute('name', 'my_cast_researcher_ver_' + cast_researcher_len)
+        input2.setAttribute('class', 'textinput textInput form-control col-sm');
+        var input3 = document.createElement("input");
+        input3.setAttribute('name', 'my_cast_researcher_date_' + cast_researcher_len)
+        input3.setAttribute('class', 'textinput textInput form-control col-sm');
+        var input4 = document.createElement("input");
+        input4.setAttribute('name', 'my_cast_researcher_description_' + cast_researcher_len);
+        input4.setAttribute('class', 'textinput textInput form-control col-sm');
+
+        // добавляем текст в элемент в качестве дочернего элемента
+        div.appendChild(input)
+        div.appendChild(input2)
+        div.appendChild(input3)
+        div.appendChild(input4)
+        articleDiv.appendChild(div);
+    }
+</script>
+
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/select2.css' %}">
+<script type="text/javascript" src='{% static 'js/select2.js' %}'></script>
+<script type="text/javascript">
+	document.getElementById('1_load_block').class = 'dropdown open';
+    
+    $(document).ready(function() {
+        $('#id_main_researcher').select2();
+});
+    
+ </script>
+
+
+
+<script type="text/javascript">
+	
+	function get_block(self){
+		block = document.getElementById(self.id + 'k')
+		if (block.hidden == true){
+      	block.hidden = false;
+      }
+      else {
+      	block.hidden = true;
+      }
+    }
+
+</script>
+
+    {% if error_message %}
+        <script>
+            jAlert('{{ error_message }}', 'Ошибка')
+            </script>
+
+            <script>
+             $(function () {
+              $('[data-toggle="tooltip"]').tooltip()
+             })
+        </script>
+    {% endif %}
+
+{% if statusSaveRequest %}
+<script>
+    jAlert('Исследование успешно загружено', 'Уведомление')
+</script>
+    {% endif %}
+
+
+
+
+{% endblock %}

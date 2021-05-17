@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+{% block content %}
+<div class="btn-group dropup rightBottom button">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Список участников
+  </button>
+  <div class="dropdown-menu">
+     <div class="userListLeft">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Участвуют</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in usersInMeeting %}
+            <tr>
+                <th>{{ user.username.last_name }}.{{ user.username.first_name.0 }}.{{ user.username.middle_name.0 }} </th>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+  {% if meetingCheckStatus.status != 'Ended' %}
+<iframe allow="camera; microphone; display-capture" src="https://10.100.0.121:8443/ЛЭК-ТЕСТ=" true="" style="height: 400px; width: 700px; border: 0px;"></iframe>
+{% endif %}
+</div>
+
+        <div class='researchListInMeeting text-center col align-self-center'>
+    <form method="post" >
+        {% csrf_token %}
+        {% for object in researchInMeeting %}
+        {% if object.type_id == 1 %}
+                        <div class="col-md-6 offset-md-3 text-center">
+                          <h3><b>Номер заявки:</b>
+                            {% for RequestObject in RequestNumberList %}
+                              {% if RequestObject.id_research|add:0 == object.id|add:0 %}
+                                <p>{{RequestObject.id}}</p>
+                              {% endif %}
+                            {% endfor %}
+                          </h3> 
+                    <h3><b>Номер протокола:</b><p>{{ object.protocol_number }}</p></h3>
+                    <h3><b>Описание:</b> <p>{{ object.description }}</p></h3>
+                    <h3><b>Главный исследователь:</b> <p>{{ object.main_researcher }}</p></h3>
+                    {% if object.expert %}
+                    <div id='expertDiv{{object.id}}'>
+                      <h3><b>Эксперт:</b><p><a href='{% url 'profile' object.expert.username %}'> {{ object.expert.last_name }}.{{ object.expert.first_name.0 }}.{{ object.expert.middle_name.0 }}</a></p></h3>
+                    </div>
+                    {% endif%}
+  {% if meetingCheckStatus.status != 'Ended' %}
+   <form method="post" >
+    {% csrf_token %}
+  {% if acceptToAdminSetting %}
+
+  <div class="col-xs-12 text-center">
+             <div class="btn-group dropright text-center">
+              <button type="button" class="btn btn-primary upper dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Назначить эксперта
+              </button>
+              <div class="dropdown-menu">
+                {% for user in usersInMeeting %}
+            <tr>
+                <button type="submit" class='btn btn-success' id='expert_select' value='' onclick="valueSet({{object.id}}, {{ user.username.id }}, {{object.type_id}})">{{ user.username.last_name }}.{{ user.username.first_name.0 }}.{{ user.username.middle_name.0 }}</button>
+            </tr>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+{% else %}
+  {% if meetingCheckStatus.status != 'Ended' %}
+        <div class="col-xs-12 text-center">
+            <button type="submit" class="btn btn-info upper" name="EXPERT" value="{{ object.type_id }}.{{ object.id }}">Подать заявку на становление экспертом</button>
+          </div>
+   {% endif %}
+{% endif %}
+        <input  id='SET_SECRETAR{{object.id}}' hidden="true" name='SET_SECRETAR{{object.id}}'> 
+        <input  id='SET_SECRETAR_TYPE{{object.id}}' hidden="true" name='SET_SECRETAR_TYPE{{object.id}}'> 
+        <input  id='SET_SECRETAR_USER{{object.id}}' hidden="true" name='SET_SECRETAR_USER{{object.id}}'> 
+         </form>
+{% endif %}
+  </div>
+                </div>  
+              </div>
+        <br>
+
+
+ 
+        {% include 'researchTemplate/firstMki.html' %}
+
+
+
+<div id='voteList{{object.id}}'>
+<table class="table table-inverse col-md-6 offset-md-3 text-center table upper " id='votesAccepted'>
+  <thead>
+    <tr>
+      <th>За</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for vote in usersAcceptedList %}
+       
+            {% if object.id|add:0 == vote.research_id|add:0  %}
+             {% if object.type_id|add:0 == vote.type_res|add:0 %}
+                <tr>
+                    <th> <a href='{% url 'profile' vote.username_vote %}'> {{ vote.username_vote.last_name }}.{{ vote.username_vote.first_name.0 }}.{{ vote.username_vote.middle_name.0 }}</a> Проголосовал: {{ vote.datetime }}
+                    {% if vote.message %} 
+                      <p><a href="#" class="tip">Заметка<span>{{ vote.message }}</span></a></p>
+                    {% endif %} </th>
+                </tr>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+  </tbody>
+</table>
+<table class="table table-inverse col-md-6 offset-md-3 text-center table upper " id='votesDenied'> 
+  <thead>
+    <tr>
+      <th>Против</th>
+    </tr>
+  </thead>
+  <tbody>
+
+{% for vote in usersDeniedList %}
+            {% if object.id|add:0 == vote.research_id|add:0  %}
+             {% if object.type_id|add:0 == vote.type_res|add:0 %}
+                <tr>
+                   <th> <a href='{% url 'profile' vote.username_vote %}'> {{ vote.username_vote.last_name }}.{{ vote.username_vote.first_name.0 }}.{{ vote.username_vote.middle_name.0 }}</a>   Проголосовал: {{ vote.datetime }}  
+                    {% if vote.message %}
+                      <p><a href="#" class="tip">Заметка<span>{{ vote.message }}</span></a></p>
+                    {% endif %} </th>
+                </tr>
+                            {% endif %}
+            {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+</form>
+
+{% if request.user.role_id != 6 %}
+  {% if meetingCheckStatus.status != 'Ended' %}
+    <form method="post" id='set_voice_form'>
+      {% csrf_token %}
+      <div class="col-xs-12 text-center">
+        <input placeholder="Замечание..." rows="3" name='message' id='message'></textarea>
+        <br> <br>
+        <button type="submit"  class="btn btn-success upper" id='acceptButton' name="ACCEPT"  value="{{ object.type_id }}.{{ object.id }}" onclick="voiceSetAccept({{ object.type_id }}.{{ object.id }})" id="buttonAccept">Одобрить</button>
+        <button type="submit"  class="btn btn-danger upper" name="DENIED"   value="{{ object.type_id }}.{{ object.id }}" onclick="voiceSetDenied({{ object.type_id }}.{{ object.id }})" id="buttonDenied">Отклонить</button>
+      </div>
+    </form>
+  {% endif %}
+{% endif %}
+</div>
+</div>
+
+
+ <br> <br> <br> <br>
+
+
+                        </form>
+
+            <br> <br>
+
+
+</div>
+
+</div>
+{% endif %}
+{% endfor %}
+{% if meetingCheckStatus.status != 'Ended' %}
+{% if acceptToAdminSetting %}
+<div class='col-xs-12 text-center '>
+                       <form method="post" class='text-center endMeetingForm' style='margin-top: 20px;'>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger upper" name="END_MEETING" onclick="reload()"   value="{{ object.id }}">Завершить заседание</button>
+                    </form>
+ {% endif %}
+ {% endif %}
+<script>
+
+function valueSet(id, userId, type){
+  document.getElementById('SET_SECRETAR' + id).value = id;
+  document.getElementById('SET_SECRETAR_TYPE'  + id).value = type;
+   document.getElementById('SET_SECRETAR_USER'  + id).value = userId;
+}
+
+function voiceSetAccept(research){
+  document.getElementById('accept_voice_id').value = research;
+  document.getElementById('denied_voice_id').value = '';
+
+}
+
+function voiceSetDenied(research){
+  document.getElementById('denied_voice_id').value = research;
+  document.getElementById('accept_voice_id').value = '';
+}
+</script>
+
+<input type='hidden' id='accept_voice_id'>
+<input type='hidden' id='denied_voice_id'>
+
+
+{% for object in researchInMeeting %}
+
+<script type="text/javascript">
+  setInterval(function(){
+
+$("#voteList{{object.id}}").load("/meetings/meeting/{{ meeting_id }}/ #voteList{{object.id}}");
+    if ($('#accept_voice_id{{object.id}}').val() != ''){
+    }
+}, 5000);
+  </script>
+
+<script type="text/javascript">
+  setInterval(function(){
+
+$("#expertDiv{{object.id}}").load("/meetings/meeting/{{ meeting_id }}/ #expertDiv{{object.id}}");
+    if ($('#SET_SECRETAR').val() != ''){
+    }
+}, 5000);
+  </script>
+
+
+{% endfor %}
+
+<script type="text/javascript">
+  $(document).on('submit', '#set_voice_form', function(e){
+    e.preventDefault();
+    s = ''
+      if ($('#accept_voice_id').val() != ''){
+          TYPE = 'ACCEPT';
+          RESEARCH = $('#accept_voice_id').val();
+          document.getElementById('acceptButton').disabled = true;
+          document.getElementById('buttonDenied').disabled = false;
+      }
+      if ($('#denied_voice_id').val() != ''){
+          TYPE = 'DENIED';
+          RESEARCH = $('#denied_voice_id').val();
+          document.getElementById('buttonDenied').disabled = true;
+          document.getElementById('acceptButton').disabled = false;
+      }
+      MESSAGE = $('#message').val();
+    $.ajax({
+      type:'POST',
+      url:'/meetings/meeting/{{ meeting_id }}/',
+      data:{
+        TYPE:TYPE,
+        RESEARCH: RESEARCH,
+        MESSAGE: MESSAGE,
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
+      succes:function(msg){
+      }
+    });
+  });
+
+
+</script>
+
+
+    <br> <br> <br> <br>
+
+    </form>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+
+{% block content %}
+    {% if reserchRequestList %}
+        {% csrf_token %}
+            <table class="table col-md-8 offset-md-2 text-center upper">
+                <form method="post" class='text-center'>
+            {% csrf_token %}
+                  <div class="input-group rounded">
+            <input type="search" class="form-control rounded row" placeholder="Введите номер протокола" name='SEARCH' aria-label="Поиск" />
+            <br><br>
+            <button type="submit" class="btn btn-success row">Найти</button>
+            </div>
+        </form>
+                <div class='text-center'>
+                    <h1>Список исследований</h1>
+                    <hr>
+                </div>
+                <thead>
+                <tr>
+                    <th scope="col" class='col-md-2'>Название</th>
+                    <th scope="col" class='col-md-2 text-center'>Создана</th>
+                    {% if request.user.role_id == 3 %}
+                        <th scope="col" class='col-md-2 text-center'>Владелец</th>
+                        <th scope="col" class='col-md-2 text-center'>Редактировать</th>
+                     {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in reserchRequestList %}
+                <tr>
+                    <th scope="row" style=''><a href='../research/watchResearch/{{ object.type_id }}/{{ object.id }}' target="_blank">{{ object.protocol_number  }}</a></th>
+                    <td>{{ object.date_created }}</td>
+                    <td><a href='{% url "profile" object.owner.username%}'>{{ object.owner.last_name }} {{ object.owner.first_name.0 }}.{{ object.owner.middle_name.0 }}.</a></td>
+                    {% if request.user.role_id == 3%}
+                        {% if user_access or object.secretar_accepted == 'False' %}
+                                <td><button type="button" class="btn btn-success upper" onclick="window.location.href ='editResearch/{{ object.type_id}}/{{ object.id }}'">Редактировать</button></td>
+                        {% else %}
+                            <td>Недоступно</td>
+                         {% endif %}
+                    {% endif%}
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+    <hr>
+        <h2>Если ваша заявка пропала из списка, значит ее отклонили</h2>
+        {% else %}
+        <h1>Пусто</h1>
+{% endif %}
+{% endblock %}
+
+

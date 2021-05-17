@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% include 'inc/_nav.html' %}
+{% block content %}
+
+<div class="col-sm">
+        <form method="post">
+            <table class="table upper" >
+                <thead>
+                <tr>
+                    <th>Исследование</th>
+                    <th>Удалить</th>
+                    <th></th>
+                </tr>
+                </thead>
+                 {% for research in record %}
+                <tr>
+                    <th><a href="{% url 'watchResearch' research.type_id research.id %}">{{ research.protocol_number }}</a></th>
+                    <td><button type="submit" class="btn btn-danger upper" style="width: -moz-available" name='DELETE' value="{{research.type_id}}.{{research.id}}">Удалить</button></td>
+                </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+            {% csrf_token %}
+                <hr>
+            <br><br><br>
+        </form>
+</div>
+
+<div class="col-sm">
+        <form method="post">
+            <table class="table upper" >
+                <thead>
+                <tr>
+                    <th>Исследование</th>
+                    <th>Добавить</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for research in researchListMki %}
+                        {% if research not in researchInMeetingList %}
+                <tr>
+                    <th><a href="{% url 'watchResearch' research.type_id research.id %}">{{ research.protocol_number }}</a></th>
+                    <td><button type="submit" class="btn btn-success upper" onclick="reload()" style="width: -moz-available" name='ADD' value="{{research.type_id}}.{{research.id}}">Добавить</button></td>
+                </tr>
+                    {% endif %}
+                        {% endfor %}
+
+                {% for research in researchListMed %}
+                <tr>
+                    <th><a href="{% url 'watchResearch' research.type_id research.id %}">{{ research.id }}</a></th>
+                    <td><button type="button" class="btn btn-success upper" onclick="reload()" style="width: -moz-available" onclick="window.location.href ='../research/{{ meeting.2 }}'">Добавить</button></td>
+                </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+            {% csrf_token %}
+                <hr>
+            <br><br><br>
+        </form>
+</div>
+
+
+<script>
+(function()
+{
+  if( window.localStorage )
+  {
+    if( !localStorage.getItem('firstLoad') )
+    {
+      localStorage['firstLoad'] = true;
+      window.location.reload();
+    }  
+    else
+      localStorage.removeItem('firstLoad');
+  }
+})();
+
+</script>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% include 'inc/_nav.html' %}
+{% block content %}
+
+
+</div>
+    <h4><a class="nav-link" href="{% url 'profile' username %}" role="button" aria-haspopup="true" aria-expanded="false">Личные данные</a></h4>
+    <h4><a class="nav-link" href="{% url 'profileDocs' username %}" role="button" aria-haspopup="true" aria-expanded="false">Документы</a></h4>
+    <form method="post">
+        {% csrf_token %}
+            <table class="table upper ">
+                <thead>
+                <tr>
+                    <th scope="col">Должность</th>
+                    <th scope="col">Выбор</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <th scope="row" name='title'>Медик</th>
+                    <td><button type="button" class="btn btn-success" id='med_yes' onclick="set_medic_yes()">Да</button>
+                        <button type="button" class="btn btn-danger" id='med_no' onclick="set_medic_no()">Нет</button></td>
+                </tr>
+
+                <tr>
+                    <th scope="row" name='title'>Специалист в области доклинических исследований</th>
+                    <td><button type="button" class="btn btn-success" id='lawyer_yes' onclick="set_lawyer_yes()">Да</button>
+                        <button type="button" class="btn btn-danger" id='lawyer_no' onclick="set_lawyer_no()">Нет</button></td>
+
+                </tr>
+
+                <tr>
+                    <th scope="row" name='title'>Сотрудник</th>
+                    <td><button type="button" class="btn btn-success" id='worker_yes' onclick="set_worker_yes()">Да</button>
+                        <button type="button" class="btn btn-danger" id='worker_no' onclick="set_worker_no()">Нет</button></td>
+                </tr>
+
+                <tr>
+                    <th scope="row" name='title'>Специалист в области клинических исследований</th>
+                    <td><button type="button" class="btn btn-success" id='specialist_yes' onclick="set_specialist_yes()">Да</button>
+                        <button type="button" class="btn btn-danger" id='specialist_no' onclick="set_specialist_no()">Нет</button></td>
+                </tr>
+                     
+                    <input type='hidden' id='medic_status' name='medic_status'>  
+                    <input type='hidden' id='lawyer_status' name='lawyer_status'> 
+                    <input type='hidden' id='worker_status' name='worker_status'>     
+                    <input type='hidden' id='specialist_status' name='specialist_status'>
+
+               
+            </table>
+            <div class='text-center'>
+             <td><button type="succes" class="btn btn-success">Сохранить</button>
+             </div>
+    </form>
+
+<script>
+function set_medic_yes() {
+    document.getElementById('medic_status').value = 1;
+    document.getElementById("med_no").style.backgroundColor ="gray";
+    document.getElementById("med_yes").style.backgroundColor ="#5cb85c"
+}
+function set_medic_no() {
+    document.getElementById('medic_status').value = 0;
+    document.getElementById("med_yes").style.backgroundColor ="gray";
+    document.getElementById("med_no").style.backgroundColor ="#d9534f";
+}
+function set_worker_yes() {
+    document.getElementById('worker_status').value = 1;
+    document.getElementById("worker_no").style.backgroundColor ="gray";
+    document.getElementById("worker_yes").style.backgroundColor ="#5cb85c"
+}
+function set_worker_no() {
+    document.getElementById('worker_status').value = 0;
+    document.getElementById("worker_yes").style.backgroundColor ="gray";
+    document.getElementById("worker_no").style.backgroundColor ="#d9534f";
+}
+function set_lawyer_yes() {
+    document.getElementById('lawyer_status').value = 1;
+    document.getElementById("lawyer_no").style.backgroundColor ="gray";
+    document.getElementById("lawyer_yes").style.backgroundColor ="#5cb85c"
+}
+function set_lawyer_no() {
+    document.getElementById('lawyer_status').value = 0;
+    document.getElementById("lawyer_yes").style.backgroundColor ="gray";
+    document.getElementById("lawyer_no").style.backgroundColor ="#d9534f";
+}
+function set_specialist_yes() {
+    document.getElementById('specialist_status').value = 1;
+    document.getElementById("specialist_no").style.backgroundColor ="gray";
+    document.getElementById("specialist_yes").style.backgroundColor ="#5cb85c"
+}
+function set_specialist_no() {
+    document.getElementById('specialist_status').value = 0;
+    document.getElementById("specialist_yes").style.backgroundColor ="gray";
+    document.getElementById("specialist_no").style.backgroundColor ="#d9534f";
+}
+</script>
+
+
+{% for i in options %}
+
+    {% if i.position_id == 1 %}
+        {% if i.status == 'True' %}
+            <script> document.getElementById("med_no").style.backgroundColor ="gray";</script>
+        {% endif %}
+        {% if i.status == 'False' %}
+            <script> document.getElementById("med_yes").style.backgroundColor ="gray";</script>
+        {% endif %}
+    {% endif %}
+
+    {% if i.position_id == 2 %}
+        {% if i.status == 'True' %}
+            <script> document.getElementById("lawyer_no").style.backgroundColor ="gray";</script>
+        {% endif %}
+        {% if i.status == 'False' %}
+            <script> document.getElementById("lawyer_yes").style.backgroundColor ="gray";</script>
+        {% endif %}
+    {% endif %}
+
+    {% if i.position_id == 3 %}
+        {% if i.status == 'True' %}
+            <script> document.getElementById("worker_no").style.backgroundColor ="gray";</script>
+        {% endif %}
+        {% if i.status == 'False' %}
+            <script> document.getElementById("worker_yes").style.backgroundColor ="gray";</script>
+        {% endif %}
+    {% endif %}
+
+    {% if i.position_id == 4 %}
+        {% if i.status == 'True' %}
+            <script> document.getElementById("specialist_no").style.backgroundColor ="gray";</script>
+        {% endif %}
+        {% if i.status == 'False' %}
+            <script> document.getElementById("specialist_yes").style.backgroundColor ="gray";</script>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

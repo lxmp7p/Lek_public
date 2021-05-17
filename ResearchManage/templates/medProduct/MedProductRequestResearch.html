@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% include 'inc/_nav.html' %}
+{% block content %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ research_form.formular_request|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.teamList|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.version_science_bio|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.permission_FS|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.conclusion_ethics|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.program_klin_research|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.form_inf_list|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.registration_cards|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.another_materials|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.info_payout|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.brochure_researcher|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.rukovodstvo|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.technical_file|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+
+        {{ research_form.polozhenie_o_soglasii|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.dublicat_dogovor|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.last_solutions|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.info_med_company|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+        {{ research_form.another_doc_expertize|as_crispy_field }}
+        <p title='?' style='text-decoration: underline;'>Подробнее</p>
+
+            <hr>
+        <button type="submit" class="btn btn-success upper" style="width: -moz-available">Отправить заявку</button>
+        <br><br><br>
+    </form>
+
+    {% if error %}
+    <script>
+    	jAlert('{{ error_message }}')
+    </script>
+<script>
+ $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+ })
+</script>
+    {% endif %}
+
+
+{% endblock %}

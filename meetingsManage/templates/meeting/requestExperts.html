@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-md-auto">
+        <hr class="mt-0 mb-4">
+        <form method="post" class="upper">
+            {% csrf_token %}
+                <table class="table table-striped table-inverse">
+                    <div class="text-center">
+                        <h1>Заявки на становление экспертом</h1>
+                        <hr>
+                    </div>
+                    <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Исследование</th>
+                    </tr>
+                    </thead>
+                    {% for expert in expertRequests %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <tbody>
+                            <tr>
+                                <td><h4><a class="nav-link" href="{% url 'profile' expert.user_expert.username %}">{{expert.user_expert.last_name }} {{expert.user_expert.first_name.0 }}. {{expert.user_expert.middle_name.0 }}.</a></h4></td>
+
+                                <td><h4><a class="nav-link" href="{% url 'watchResearch' expert.research.type_id expert.research.id %}">{{expert.research.protocol_number }}</a></h4></td>
+                                <td>
+                                    <button type="submit" value={{expert.research.id}} name="accept" class="btn btn-success upper" >Принять</button>
+                                    <button type="submit" value={{expert.research.id}} name="decline" class="btn btn-danger upper">Отклонить</button>
+                                    <input type="hidden" name="username" value="{{ expert.user_expert.username }}" >
+                                    <input type="hidden" name="id_request" value="{{ expert.id }}" >
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </form>
+                    {% endfor %}
+                </table>
+            </form>
+        </form>
+    </div>
+{% endblock %}

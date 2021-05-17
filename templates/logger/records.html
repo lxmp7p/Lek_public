@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+        <form method="post" class='text-center'>
+            {% csrf_token %}
+                  <div class="input-group rounded ">
+            <input type="search" class="form-control rounded" placeholder="Введите имя" name='SEARCH' aria-label="Поиск" />
+            <br><br>
+    <div class="col-md-auto">
+        <hr class="mt-0 mb-4">
+		<table class="table upper">
+                <thead>
+                <tr>
+                    <th scope="col">Логин</th>
+                    <th scope="col">Дата/Время</th>
+                    <th scope="col">Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for record in bd reversed %}
+                <tr>
+                    <th><a href='../../profile/{{ record.username }}' >{{ record.username  }}</a></th>
+                    <td>{{ record.datetime }}</td>
+                    <td>{{ record.action }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+    </div>
+{% endblock %}

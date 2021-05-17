@@ -1,0 +1,32 @@
+.voteBannerRight {
+  max-width: 8em; /* блок занимает ширину родителя, max-width её ограничивает */
+  min-height: 2em;
+  margin-left: auto;
+  margin-right: -1000px;
+  background: #fff5d7;
+    position: fixed;
+    padding-right: 50px;
+    font-size: 20px;
+}
+
+.voteBannerLeft {
+  max-width: 10em; /* блок занимает ширину родителя, max-width её ограничивает */
+  min-height: 2em;
+  margin-left: -1000px;
+  margin-right: auto;
+  background: #fff5d7;
+    position: fixed;
+    padding-right: 50px;
+    font-size: 20px;
+}
+
+.userListLeft {
+  max-width: 10em; /* блок занимает ширину родителя, max-width её ограничивает */
+  min-height: 2em;
+  margin-left: -1600px;
+  margin-right: auto;
+  background: #fff5d7;
+    position: fixed;
+    padding-right: 50px;
+    font-size: 20px;
+}
